@@ -1,15 +1,25 @@
 <template>
   <div id="app">
     <div class="form">
-      <input class="input" :value="username" @input="updateUsername" />
-      <input class="input" :value="password" @input="updatePassword" />
-      <button class="submit" @click="submit">Sign up</button>
+      <label for="username">{{dictionary.usernameLabel}}:</label>
+      <input id="username" class="input" :value="username" @input="updateUsername" />
+      <label for="password">{{dictionary.passwordLabel}}:</label>
+      <input id="password" type="password" class="input"
+      :value="password" @input="updatePassword" />
+      <button class="submit" @click="submit">{{dictionary.signupLabel}}</button>
+    </div>
+    <div class="language-container">
+      <label for="language">{{dictionary.languageLabel}}:  </label>
+      <input type="radio" name="language" value="en" v-model="language"/>English
+      <input type="radio" name="language" value="es" v-model="language"/>Español
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import en from './constants/en.json';
+import es from './constants/es.json';
 
 export default {
   name: 'app',
@@ -17,6 +27,8 @@ export default {
     return {
       username: '',
       password: '',
+      dictionary: en,
+      language: 'en',
     };
   },
   methods: {
@@ -33,6 +45,11 @@ export default {
         password: this.password,
       });
       alert('User created');
+    },
+  },
+  watch: {
+    language(value) {
+      this.dictionary = value === 'es' ? es : en;
     },
   },
 };
@@ -68,5 +85,12 @@ export default {
   background: #00aced;
   color: #fff;
   font-size: 15px;
+  cursor: pointer;
+}
+
+.language-container {
+  width: 30vw;
+  margin: auto;
+  padding-top: 40px;
 }
 </style>
