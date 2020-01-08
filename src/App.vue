@@ -56,27 +56,6 @@ export default {
       dictionary,
     };
   },
-  methods: {
-    updateUsername(event) {
-      this.username = event.target.value;
-    },
-    updatePassword(event) {
-      this.password = event.target.value;
-    },
-    async submit() {
-      // probably add some other business logic here :)
-      await axios.post('https://jsonplaceholder.typicode.com/users', {
-        username: this.username,
-        password: this.password,
-      });
-      alert('User created');
-    },
-  },
-  computed: {
-    dictionary() {
-      return this.language === 'es' ? es : en;
-    },
-  },
 };
 </script>
 
