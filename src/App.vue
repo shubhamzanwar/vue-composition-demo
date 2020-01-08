@@ -22,38 +22,47 @@ import { ref, computed } from '@vue/composition-api';
 import en from './constants/en.json';
 import es from './constants/es.json';
 
+const useLogin = () => {
+  const username = ref('');
+  const password = ref('');
+  const updateUsername = (event) => {
+    username.value = event.target.value;
+  };
+  const updatePassword = (event) => {
+    password.value = event.target.value;
+  };
+  const submit = async () => {
+    // probably add some other business logic here :)
+    await axios.post('https://jsonplaceholder.typicode.com/users', {
+      username,
+      password,
+    });
+    alert('User created');
+  };
+  return {
+    username,
+    password,
+    updateUsername,
+    updatePassword,
+    submit,
+  };
+};
+
+const useLanguage = () => {
+  const language = ref('en');
+  const dictionary = computed(() => (language.value === 'es' ? es : en));
+  return {
+    language,
+    dictionary,
+  };
+};
+
 export default {
   name: 'app',
   setup() {
-    let username = ref('');
-    let password = ref('');
-    const language = ref('en');
-
-    const updateUsername = (event) => {
-      username = event.target.value;
-    };
-    const updatePassword = (event) => {
-      password = event.target.value;
-    };
-    const submit = async () => {
-      // probably add some other business logic here :)
-      await axios.post('https://jsonplaceholder.typicode.com/users', {
-        username,
-        password,
-      });
-      alert('User created');
-    };
-
-    const dictionary = computed(() => (language.value === 'es' ? es : en));
-
     return {
-      username,
-      password,
-      language,
-      updateUsername,
-      updatePassword,
-      submit,
-      dictionary,
+      ...useLogin(),
+      ...useLanguage(),
     };
   },
 };
