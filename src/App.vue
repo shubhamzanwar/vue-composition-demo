@@ -18,16 +18,42 @@
 
 <script>
 import axios from 'axios';
+import { ref, computed } from '@vue/composition-api';
 import en from './constants/en.json';
 import es from './constants/es.json';
 
 export default {
   name: 'app',
-  data() {
+  setup() {
+    let username = ref('');
+    let password = ref('');
+    const language = ref('en');
+
+    const updateUsername = (event) => {
+      username = event.target.value;
+    };
+    const updatePassword = (event) => {
+      password = event.target.value;
+    };
+    const submit = async () => {
+      // probably add some other business logic here :)
+      await axios.post('https://jsonplaceholder.typicode.com/users', {
+        username,
+        password,
+      });
+      alert('User created');
+    };
+
+    const dictionary = computed(() => (language.value === 'es' ? es : en));
+
     return {
-      username: '',
-      password: '',
-      language: 'en',
+      username,
+      password,
+      language,
+      updateUsername,
+      updatePassword,
+      submit,
+      dictionary,
     };
   },
   methods: {
