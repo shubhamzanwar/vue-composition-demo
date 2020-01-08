@@ -27,7 +27,6 @@ export default {
     return {
       username: '',
       password: '',
-      dictionary: en,
       language: 'en',
     };
   },
@@ -47,9 +46,9 @@ export default {
       alert('User created');
     },
   },
-  watch: {
-    language(value) {
-      this.dictionary = value === 'es' ? es : en;
+  computed: {
+    dictionary() {
+      return this.language === 'es' ? es : en;
     },
   },
 };
@@ -89,8 +88,12 @@ export default {
 }
 
 .language-container {
-  width: 30vw;
+  width: 50vw;
   margin: auto;
   padding-top: 40px;
+}
+
+label {
+  text-align: left;
 }
 </style>
